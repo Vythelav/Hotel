@@ -1,0 +1,145 @@
+﻿<Window x:Class="Hotel.ManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Title="Панель руководителя" 
+        Height="600" 
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="#FF1E1E1E"
+        Foreground="White"
+        WindowState="Maximized"
+WindowStyle="None">
+
+    <Window.Resources>
+        <Style x:Key="LegendTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Border Background="#FF252526" Height="50" VerticalAlignment="Top">
+            <TextBlock Text="Панель руководителя" 
+                       FontSize="20" 
+                       FontWeight="Bold" 
+                       Foreground="White" 
+                       VerticalAlignment="Center" 
+                       Margin="20,0"/>
+        </Border>
+
+        <TabControl Margin="10,60,10,10" Background="Transparent">
+            <TabItem Header="Статистика">
+                <Grid>
+                    <lvc:CartesianChart Series="{Binding BarSeries}" 
+                                        LegendLocation="Bottom"
+                                        Background="#FF252526"
+                                        Foreground="White"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        AnimationsSpeed="0:0:0.5" 
+                                        Hoverable="True"
+                                        DataTooltip="{x:Null}" Height="482" Width="754">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Показатели" 
+                                      Labels="{Binding Labels}" 
+                                      Foreground="White"
+                                      FontSize="14"
+                                      FontWeight="Bold">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1" Stroke="#FF444444"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Значения" 
+                                      Foreground="White"
+                                      FontSize="14"
+                                      FontWeight="Bold">
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator StrokeThickness="1" Stroke="#FF444444"/>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.ChartLegend>
+                            <lvc:DefaultLegend Foreground="White" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="10"
+                                               BulletSize="15">
+                                
+                            </lvc:DefaultLegend>
+                        </lvc:CartesianChart.ChartLegend>
+                    </lvc:CartesianChart>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Персонал">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Управление персоналом" 
+                               FontSize="16" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,10"/>
+                    <DataGrid x:Name="EmployeesDataGrid" 
+                              AutoGenerateColumns="False" 
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" Width="150"/>
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="100"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="100"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Добавить сотрудника" 
+                            Width="150" 
+                            Height="30" 
+                            Click="AddEmployeeButton_Click"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Расписание">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Расписание работ" 
+                               FontSize="16" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,10"/>
+                    <DataGrid x:Name="ScheduleDataGrid" 
+                              AutoGenerateColumns="False" 
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeName}" Width="150"/>
+                            <DataGridTextColumn Header="Задача" Binding="{Binding Task}" Width="200"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date}" Width="100"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Добавить задачу" 
+                            Width="150" 
+                            Height="30" 
+                            Click="AddTaskButton_Click"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Мониторинг">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Мониторинг выполнения задач" 
+                               FontSize="16" 
+                               FontWeight="Bold" 
+                               Margin="0,0,0,10"/>
+                    <DataGrid x:Name="TasksDataGrid" 
+                              AutoGenerateColumns="False" 
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Задача" Binding="{Binding Task}" Width="200"/>
+                            <DataGridTextColumn Header="Сотрудник" Binding="{Binding EmployeeName}" Width="150"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTextColumn Header="Дата завершения" Binding="{Binding CompletionDate}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,143 @@
+﻿<Window x:Class="Hotel.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Панель администратора" 
+        Height="600" 
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="#FF1E1E1E"
+        Foreground="White"
+        WindowState="Maximized"
+        WindowStyle="None">
+
+    <Grid>
+        <Border Background="#FF1E1E1E">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Black" Opacity="0.5"/>
+            </Border.Effect>
+        </Border>
+
+        <Border Background="#FF252526" Height="50" VerticalAlignment="Top">
+            <TextBlock Text="Панель администратора" 
+                       FontSize="20" 
+                       FontWeight="Bold" 
+                       Foreground="White" 
+                       VerticalAlignment="Center" 
+                       Margin="20,0"/>
+        </Border>
+
+        <TabControl Margin="10,60,10,10" Background="Transparent">
+            <TabItem Header="Бронирования">
+                <DataGrid x:Name="BookingsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID бронирования" Binding="{Binding BookingID}" Width="100"/>
+                        <DataGridTextColumn Header="Гость" Binding="{Binding GuestName}" Width="150"/>
+                        <DataGridTextColumn Header="Номер комнаты" Binding="{Binding RoomNumber}" Width="100"/>
+                        <DataGridTextColumn Header="Дата заезда" Binding="{Binding CheckInDate}" Width="100"/>
+                        <DataGridTextColumn Header="Дата выезда" Binding="{Binding CheckOutDate}" Width="100"/>
+                        <DataGridTextColumn Header="Статус" Binding="{Binding BookingStatus}" Width="100"/>
+
+                        <!-- Кнопка для подтверждения бронирования -->
+                        <DataGridTemplateColumn Header="Действия" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Подтвердить" 
+                                            Click="ConfirmBookingButton_Click"
+                                            Tag="{Binding BookingID}"
+                                            Background="#FF007ACC"
+                                            Foreground="White"
+                                            BorderBrush="Transparent"
+                                            Padding="5"
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Cursor="Hand">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <!-- Скрыть кнопку, если статус "Подтверждено" -->
+                                                    <DataTrigger Binding="{Binding BookingStatus}" Value="Подтверждено">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Номера">
+                <DataGrid x:Name="RoomsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID номера" Binding="{Binding RoomID}" Width="100"/>
+                        <DataGridTextColumn Header="Номер комнаты" Binding="{Binding RoomNumber}" Width="100"/>
+                        <DataGridTextColumn Header="Тип комнаты" Binding="{Binding RoomType}" Width="100"/>
+                        <DataGridTextColumn Header="Вместимость" Binding="{Binding Capacity}" Width="100"/>
+                        <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"/>
+                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Гости">
+                <DataGrid x:Name="GuestsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID гостя" Binding="{Binding GuestID}" Width="100"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="100"/>
+                        <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="100"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                        <DataGridTextColumn Header="Паспорт" Binding="{Binding PassportNumber}" Width="100"/>
+                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Платежи">
+                <DataGrid x:Name="PaymentsDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False" 
+                          Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID платежа" Binding="{Binding PaymentID}" Width="100"/>
+                        <DataGridTextColumn Header="ID бронирования" Binding="{Binding BookingID}" Width="100"/>
+                        <DataGridTextColumn Header="Сумма" Binding="{Binding Amount}" Width="100"/>
+                        <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate}" Width="100"/>
+                        <DataGridTextColumn Header="Метод оплаты" Binding="{Binding PaymentMethod}" Width="100"/>
+                        <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Сотрудники">
+                <StackPanel Margin="10">
+                    <DataGrid x:Name="EmployeesDataGrid" 
+                              AutoGenerateColumns="False" 
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID сотрудника" Binding="{Binding EmployeeID}" Width="100"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}" Width="150"/>
+                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="100"/>
+                            <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="100"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="100"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
