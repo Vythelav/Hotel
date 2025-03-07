@@ -8,7 +8,7 @@ namespace Hotel
 {
     public partial class AdminWindow : Window
     {
-        private string connectionString = "Server=LAPTOP-V0AGQKUF\\SLAUUUIK;Database=Hotel;Trusted_Connection=True;";
+        private string connectionString = "Server=510EC15;Database=Hotel;Trusted_Connection=True;";
 
         public AdminWindow()
         {
@@ -116,6 +116,21 @@ namespace Hotel
             }
         }
 
+        private void ConfirmPaymentButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                int paymentID = (int)button.Tag; // Получаем ID платежа из свойства Tag
+
+                // Обновляем статус платежа на "Оплачено"
+                UpdatePaymentStatus(paymentID, "Оплачено");
+
+                // Обновляем данные в DataGrid
+                LoadPayments();
+            }
+        }
+
         private void UpdateBookingStatus(int bookingID, string status)
         {
             string query = @"
@@ -146,6 +161,40 @@ namespace Hotel
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка при обновлении статуса бронирования: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void UpdatePaymentStatus(int paymentID, string status)
+        {
+            string query = @"
+                UPDATE Payments
+                SET Status = @Status
+                WHERE PaymentID = @PaymentID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Status", status);
+                command.Parameters.AddWithValue("@PaymentID", paymentID);
+
+                try
+                {
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Статус платежа успешно обновлен.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Платеж с указанным ID не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при обновлении статуса платежа: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

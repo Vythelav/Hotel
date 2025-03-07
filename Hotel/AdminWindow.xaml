@@ -108,9 +108,9 @@
 
             <TabItem Header="Платежи">
                 <DataGrid x:Name="PaymentsDataGrid" 
-                          AutoGenerateColumns="False" 
-                          CanUserAddRows="False" 
-                          Margin="10">
+              AutoGenerateColumns="False" 
+              CanUserAddRows="False" 
+              Margin="10">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID платежа" Binding="{Binding PaymentID}" Width="100"/>
                         <DataGridTextColumn Header="ID бронирования" Binding="{Binding BookingID}" Width="100"/>
@@ -118,10 +118,37 @@
                         <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate}" Width="100"/>
                         <DataGridTextColumn Header="Метод оплаты" Binding="{Binding PaymentMethod}" Width="100"/>
                         <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+
+                        <DataGridTemplateColumn Header="Действия" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Подтвердить оплату" 
+                                Click="ConfirmPaymentButton_Click"
+                                Tag="{Binding PaymentID}"
+                                Background="#FF007ACC"
+                                Foreground="White"
+                                BorderBrush="Transparent"
+                                Padding="5"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                Cursor="Hand">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="Оплачено">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-
             <TabItem Header="Сотрудники">
                 <StackPanel Margin="10">
                     <DataGrid x:Name="EmployeesDataGrid" 

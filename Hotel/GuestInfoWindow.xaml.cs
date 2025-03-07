@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Hotel
 {
@@ -7,10 +8,11 @@ namespace Hotel
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public string Email { get; private set; }
         public string PhoneNumber { get; private set; }
-        public string Passport { get; private set; }
+        public string Email { get; private set; }
+        public string PassportNumber { get; private set; }
         public DateTime DateOfBirth { get; private set; }
+        public string PaymentMethod { get; private set; } 
 
         public GuestInfoWindow()
         {
@@ -24,7 +26,8 @@ namespace Hotel
                 string.IsNullOrEmpty(EmailTextBox.Text) ||
                 string.IsNullOrEmpty(PhoneNumberTextBox.Text) ||
                 string.IsNullOrEmpty(PassportTextBox.Text) ||
-                DateOfBirthPicker.SelectedDate == null)
+                DateOfBirthPicker.SelectedDate == null ||
+                PaymentMethodComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Пожалуйста, заполните все поля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -34,8 +37,10 @@ namespace Hotel
             LastName = LastNameTextBox.Text;
             Email = EmailTextBox.Text;
             PhoneNumber = PhoneNumberTextBox.Text;
-            Passport = PassportTextBox.Text;
+            PassportNumber = PassportTextBox.Text;
             DateOfBirth = DateOfBirthPicker.SelectedDate.Value;
+
+            PaymentMethod = (PaymentMethodComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
 
             this.DialogResult = true;
             this.Close();

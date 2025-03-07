@@ -8,7 +8,7 @@ namespace Hotel
 {
     public partial class AddTaskWindow : Window
     {
-        private string connectionString = "Server=LAPTOP-V0AGQKUF\\SLAUUUIK;Database=Hotel;Trusted_Connection=True;";
+        private string connectionString = "Server=510EC15;Database=Hotel;Trusted_Connection=True;";
 
         public AddTaskWindow()
         {
