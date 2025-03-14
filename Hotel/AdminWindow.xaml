@@ -5,25 +5,31 @@
         Height="600" 
         Width="800"
         WindowStartupLocation="CenterScreen"
-        Background="#FF1E1E1E"
+        Background="#301b28"
         Foreground="White"
         WindowState="Maximized"
         WindowStyle="None">
 
     <Grid>
-        <Border Background="#FF1E1E1E">
+        <Border Background="#301b28">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Black" Opacity="0.5"/>
             </Border.Effect>
         </Border>
 
-        <Border Background="#FF252526" Height="50" VerticalAlignment="Top">
+        <Border Background="#301b28" Height="50" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                
             <TextBlock Text="Панель администратора" 
                        FontSize="20" 
                        FontWeight="Bold" 
                        Foreground="White" 
                        VerticalAlignment="Center" 
                        Margin="20,0"/>
+                <Button Content="Выйти" HorizontalAlignment="Right" Click="LeaveButton_Click">
+
+                </Button>
+            </StackPanel>
         </Border>
 
         <TabControl Margin="10,60,10,10" Background="Transparent">
@@ -89,7 +95,7 @@
                 </DataGrid>
             </TabItem>
 
-            <TabItem Header="Гости">
+            <TabItem Header="Гости">    
                 <DataGrid x:Name="GuestsDataGrid" 
                           AutoGenerateColumns="False" 
                           CanUserAddRows="False" 
@@ -160,7 +166,37 @@
                             <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="100"/>
                             <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="100"/>
                             <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}" Width="100"/>
-                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="120"/>
+                            <DataGridTemplateColumn Header="Блокировка" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Заблокировать" 
+                                                Click="BlockedEmployeesButton_Click"
+                                                Tag="{Binding EmployeeID}"
+                                                Background="#FF007ACC"
+                                                Foreground="White"
+                                                BorderBrush="Transparent"
+                                                Padding="5"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                Cursor="Hand">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsBlocked}" Value="True">
+                                                            <Setter Property="Content" Value="Разблокировать"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsBlocked}" Value="False">
+                                                            <Setter Property="Content" Value="Заблокировать"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

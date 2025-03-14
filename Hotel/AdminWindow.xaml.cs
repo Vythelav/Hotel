@@ -96,7 +96,7 @@ namespace Hotel
             Button button = sender as Button;
             if (button != null)
             {
-                int bookingID = (int)button.Tag; // Получаем ID бронирования из свойства Tag
+                int bookingID = (int)button.Tag; // Получаем ID бронирования из свойства 
 
                 // Обновляем статус бронирования
                 UpdateBookingStatus(bookingID, "Подтверждено");
@@ -115,6 +115,85 @@ namespace Hotel
                 LoadRooms();
             }
         }
+
+        private void BlockedEmployeesButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (sender is Button button)
+            {
+
+                if (button.Tag != null && int.TryParse(button.Tag.ToString(), out int employeeID))
+                {
+
+                    
+                    bool isCurrentlyBlocked = CheckIfEmployeeIsBlocked(employeeID);
+
+
+                    string newBlockedStatus = isCurrentlyBlocked ? "False" : "True";
+                    string newBlockedContent = isCurrentlyBlocked ? "Заблакировать" : "Разблокировать";
+                    button.Content = newBlockedContent;
+                    UpdateBlockedEmployees(employeeID, newBlockedStatus);
+
+                    
+                    LoadPayments();
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка: неверный идентификатор сотрудника.");
+                }
+            }
+        }
+        private bool CheckIfEmployeeIsBlocked(int employeeID)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT isBlocked FROM Employees WHERE EmployeeID = @EmployeeID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@EmployeeID", employeeID);
+
+                object result = command.ExecuteScalar();
+                return result.ToString() == "True" ? true : false;
+            }
+        }
+
+        private void UpdateBlockedEmployees(int employeeId, string status)
+        {
+            if (employeeId != 1 && employeeId != 2)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        connection.Open();
+                        string query = "UPDATE Employees SET isBlocked = @Status WHERE EmployeeID = @EmployeeID";
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@EmployeeID", employeeId);
+                        command.Parameters.AddWithValue("@Status", status);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Статус блокировки успешно обновлен.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Пользователя с указанным ID не найдено.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка в блокировке: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("нельзя заблокировать главных!");
+            }
+        }
+
 
         private void ConfirmPaymentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -254,6 +333,13 @@ namespace Hotel
                     MessageBox.Show("Ошибка при обновлении статуса комнаты: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        private void LeaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            GuestWindow guestWindow = new GuestWindow();
+            guestWindow.Show();
+            this.Close();
         }
     }
 }

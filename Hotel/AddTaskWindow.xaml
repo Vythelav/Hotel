@@ -5,7 +5,7 @@
         Height="350" 
         Width="400"
         WindowStartupLocation="CenterScreen"
-        Background="#FF1E1E1E"
+        Background="#301b28"
         Foreground="White">
 
     <Grid Margin="10">
@@ -48,6 +48,8 @@
                     Width="100" 
                     Height="30" 
                     FontSize="14" 
+                    Foreground="White" 
+                    Background="#B6452C" 
                     Click="AddButton_Click"/>
         </StackPanel>
     </Grid>

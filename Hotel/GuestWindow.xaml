@@ -11,12 +11,14 @@
         WindowStyle="None">
 
     <Grid>
-        <Border Background="#FF252526" Height="50" VerticalAlignment="Top">
+        <Border Background="#301b28" Height="50" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Content="Войти как сотрудник" 
-                        Width="150" 
+                        Width="150"
                         Height="30" 
-                        Margin="10,0" 
+                        Margin="10,0"
+                        Background="#B6452C"
+                         Foreground="White"
                         Click="LoginAsEmployeeButton_Click"/>
             </StackPanel>
         </Border>
@@ -45,6 +47,8 @@
             <Button Content="Забронировать номер" 
                     Width="150" 
                     Height="30" 
+                    Background="#B6452C"
+ Foreground="White"
                     Click="BookRoomButton_Click"/>
         </StackPanel>
         <Label Content="Hotel"  Foreground="White" FontSize="50" HorizontalAlignment="Left" Margin="0,-17,0,0" VerticalAlignment="Top" Width="212"/>

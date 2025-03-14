@@ -11,7 +11,7 @@
         WindowStyle="None">
 
     <Grid>
-        <Border Background="#FF1C1C1C" CornerRadius="20" Margin="50">
+        <Border Background="#301b28" CornerRadius="20" Margin="50">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Black" Opacity="0.5"/>
             </Border.Effect>
@@ -106,7 +106,7 @@
                     FontSize="16" 
                     FontWeight="Bold" 
                     Foreground="White" 
-                    Background="#FF1E90FF" 
+                    Background="#B6452C" 
                     BorderBrush="Transparent" 
                     Click="LoginButton_Click">
                 <Button.Style>
